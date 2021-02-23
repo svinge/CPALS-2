@@ -39,22 +39,26 @@ for i in positions:
     n += 1
 
 
-network.addEdge(1, 2, 5)
-network.addEdge(2, 3, 5)
-network.addEdge(3, 4, 5)
-network.addEdge(4, 5, 5)
-network.addEdge(4, 6, 5)
-network.addEdge(3, 7, 5)
-network.addEdge(7, 8, 5)
-network.addEdge(7, 9, 5)
-network.addEdge(9, 10, 5)
-network.addEdge(10, 11, 5)
-network.addEdge(11, 12, 5)
-network.addEdge(12, 13, 5)
-network.addEdge(13, 14, 5)
-network.addEdge(12, 17, 5)
-network.addEdge(13, 16, 5)
-network.addEdge(14, 15, 5)
-network.addEdge(2, 10, 5)
+
+
+network.addEdge(1, 2, network.getDistance(1,2))
+network.addEdge(2, 3, network.getDistance(2,3))
+network.addEdge(3, 4, network.getDistance(3,4))
+network.addEdge(4, 5, network.getDistance(4,5))
+network.addEdge(4, 6, network.getDistance(4,6))
+network.addEdge(3, 7, network.getDistance(3,7))
+network.addEdge(7, 8, network.getDistance(7,8))
+network.addEdge(7, 9, network.getDistance(7,9))
+network.addEdge(9, 10, network.getDistance(9,10))
+network.addEdge(10, 11, network.getDistance(10,11))
+network.addEdge(11, 12, network.getDistance(11,12))
+network.addEdge(12, 13, network.getDistance(12,13))
+network.addEdge(13, 14, network.getDistance(13,14))
+network.addEdge(12, 17, network.getDistance(12,17))
+network.addEdge(13, 16, network.getDistance(13,16))
+network.addEdge(14, 15, network.getDistance(14,15))
+#network.addEdge(2, 10, 5)
+
+
 
 network.showPlot()

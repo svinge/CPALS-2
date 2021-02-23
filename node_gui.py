@@ -16,7 +16,7 @@ class Network():
     def __init__(self):
         self.G = nx.Graph()
         self.addNode(0 , (0,0))
-        self.closest = {'id': 99, 'pos': (99,99), 'distance': []}
+        self.closest = 1
         self.sp = []
         self.x = 0
         self.y = 0
@@ -29,8 +29,8 @@ class Network():
         try:
             self.node_pos=nx.get_node_attributes(self.G ,'pos')
             arc_weight=nx.get_edge_attributes(self.G,'weight')
-            self.sp = nx.dijkstra_path(self.G, source = 0, target = 14)
-            self.getClosest()
+
+
             red_edges = list(zip(self.sp,self.sp[1:]))
             node_col = ['gray' if not node in self.sp else 'red' for node in self.G.nodes()]
             edge_col = ['black' if not edge in red_edges else 'red' for edge in self.G.edges()]
@@ -43,6 +43,14 @@ class Network():
         #nx.draw(self.G)
         except:
             pass
+
+
+    def getDistance(self, a,b):
+        a = self.G.nodes(data=True)[a]['pos']
+        b = self.G.nodes(data=True)[b]['pos']
+        return math.sqrt((a[0]-b[0])**2+ (a[1]-b[1])**2)
+
+
     def mouse_move(self, event):
 
         d = 0
@@ -51,24 +59,17 @@ class Network():
         self.G.nodes[0]['pos'] = (self.x,self.y)
 
 
+
         try:
 
-            for i , pos in self.G.nodes.items():
-                pos = pos['pos']
-                #print(i, pos)
-
-                dist = (abs(self.x-pos[0]),abs(self.y-pos[1]))
-                tot_dist = dist[0]+dist[1]
-                #print(i , tot_dist)
-                dist2 = (abs(self.x-self.closest['pos'][0]),abs(self.y-self.closest['pos'][1]))
-                tot_dist2 = dist2[0]+dist2[1]
-                self.closest['distance'].append(tot_dist2)
-
-                if tot_dist < tot_dist2 and i != 0:
-                    self.closest['pos'] = pos
-                    self.closest['id'] = i
-                    self.closest['distance'] = []
-                    d = round(tot_dist, 2)
+            for i , data in self.G.nodes.items():
+                pos = data['pos']
+                dist = self.getDistance(0,i)
+                dist2 = self.getDistance(0,self.closest)
+                if dist < dist2 and i != 0:
+                    self.closest = i
+                    #self.closest['distance'] = []
+                    d = round(dist, 2)
 
 
             for a,b in self.G.edges:
@@ -78,20 +79,24 @@ class Network():
                     except:
                         pass
 
-            self.addEdge(0,self.closest['id'], d)
 
+            self.addEdge(0,self.closest, d)
+            self.findPath()
             self.updatePlot()
         except:
             pass
 
 
-
+    def findPath(self):
+        self.sp = nx.dijkstra_path(self.G, source = 0, target = 14)
+        print(self.sp)
+        self.getClosest()
 
 
     def getClosest(self):
 
         try:
-            pos = self.closest['pos']
+            pos = self.G.nodes[self.closest]['pos']
             nextid = self.sp[2]
             pos2 = self.G.nodes[nextid]['pos']
 
@@ -108,6 +113,19 @@ class Network():
 
             if (x > 0 and y > 0):
                 self.sp.pop(1)
+                for a,b in self.G.edges:
+                    if a == 0:
+                        try:
+                            self.G.remove_edge(0,b)
+                        except:
+                            pass
+
+                print(nextid)
+                self.addEdge(0,nextid,5)
+
+
+
+
 
         except:
             pass
