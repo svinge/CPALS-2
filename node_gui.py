@@ -93,54 +93,24 @@ class Network():
         try:
             pos = self.closest['pos']
             nextid = self.sp[2]
-            #print(nextid)
             pos2 = self.G.nodes[nextid]['pos']
 
-            print(pos, pos2)
+            ab = [pos2[0]-pos[0],pos2[1]-pos[1]]
+            ba = [pos[0]-pos2[0],pos[1]-pos2[1]]
+
+            ac = [self.x-pos[0],self.y-pos[1]]
+            bc = [self.x-pos2[0],self.y-pos2[1]]
 
 
-
-            O = math.sqrt(
-            abs(pos[0]-pos2[0])^2
-            +
-            abs(pos[1]-pos2[1])^2
-            )
+            x = np.dot(ab, ac)
+            y = np.dot(ba, bc)
 
 
-            print(O)
-            #tao = math.asin(O/H)
+            if (x > 0 and y > 0):
+                self.sp.pop(1)
 
-            closestRad = math.atan2( pos[0]-self.x, pos[1]-self.y)
-            nextRad = math.atan2( pos2[0]-self.x, pos2[1]-self.y)
-
-            mydegrees = math.degrees(closestRad)
-            mydegrees2 = math.degrees(nextRad)
-
-            print(mydegrees,mydegrees2 )
-
-            #res = math.pi/2 -closestRad +  math.pi/2 - nextRad > math.pi/2
-            #print(res)
         except:
             pass
-
-
-
-        #pos = self.closest['pos']
-        #pos2 = self.sp[2]
-        #pos3 = self.G.nodes[pos2]['pos']
-        #id  = self.G.nodes[pos2]
-
-
-
-        #closestRad = math.atan2(pos[1]-self.y, pos[0]-self.x)
-        #nextRad = math.atan2(pos[1]-self.y, pos[0]-self.x)
-
-        #print(closestRad)
-        #print(id)
-
-        #print(arr[:, 1:])
-        #x = np.all(a[:, 1:] >= a[:, :-1], axis=0)
-        #print(x)
 
 
 

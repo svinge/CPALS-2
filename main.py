@@ -55,6 +55,6 @@ network.addEdge(13, 14, 5)
 network.addEdge(12, 17, 5)
 network.addEdge(13, 16, 5)
 network.addEdge(14, 15, 5)
-network.addEdge(2, 10, 50)
+network.addEdge(2, 10, 5)
 
 network.showPlot()
