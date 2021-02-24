@@ -42,10 +42,12 @@ class Network():
 
 
     def getDistance(self, a,b):
-        a = self.G.nodes(data=True)[a]['pos']
-        b = self.G.nodes(data=True)[b]['pos']
-        return math.sqrt((a[0]-b[0])**2+ (a[1]-b[1])**2)
-
+        try:
+            a = self.G.nodes(data=True)[a]['pos']
+            b = self.G.nodes(data=True)[b]['pos']
+            return math.sqrt((a[0]-b[0])**2+ (a[1]-b[1])**2)
+        except:
+            pass
 
     def closest_node(self, node, nodes):
         try:
@@ -58,25 +60,30 @@ class Network():
 
     def mouse_move(self, event):
 
-        self.x, self.y = event.xdata, event.ydata
-        self.G.nodes[0]['pos'] = (self.x,self.y)
+        try:
 
-        closest = self.closest_node(self.G.nodes[0]['pos'],list(self.node_pos.values())[1:] )
-        d = round(self.getDistance(0,closest),2)
+            self.x, self.y = event.xdata, event.ydata
+            self.G.nodes[0]['pos'] = (self.x,self.y)
 
-        for a,b in self.G.edges:
-            if a == 0:
-                try:
-                    self.G.remove_edge(0,b)
-                except:
-                    pass
+            closest = self.closest_node(self.G.nodes[0]['pos'],list(self.node_pos.values())[1:] )
+
+            d = round(self.getDistance(0,closest),2)
+
+            for a,b in self.G.edges:
+                if a == 0:
+                    try:
+                        self.G.remove_edge(0,b)
+                    except:
+                        pass
 
 
-        self.addEdge(0,closest, d)
-        self.findPath()
-        self.getClosest(closest)
-        self.updatePlot()
+            self.addEdge(0,closest, d)
+            self.findPath()
+            self.getClosest(closest)
+            self.updatePlot()
 
+        except:
+            pass
 
 
     def findPath(self):
